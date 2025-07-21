@@ -14,6 +14,9 @@ import calibration_plot
 def main():
 
     # PART 1: Instanciate etl, saving the two datasets in `./data/`
+    pred_universe_raw, arrest_events_raw = etl.etl()
+    print(pred_universe_raw.head()) 
+    print(arrest_events_raw.head())
 
     # PART 2: Call functions/instanciate objects from preprocessing
 
@@ -26,3 +29,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
