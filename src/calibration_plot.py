@@ -17,6 +17,7 @@ from sklearn.calibration import calibration_curve
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import roc_auc_score
+from sklearn.metrics import brier_score_loss
 
 # Calibration plot function 
 def calibration_plot(y_true, y_prob, n_bins=10):
@@ -47,15 +48,17 @@ def calibration_plot(y_true, y_prob, n_bins=10):
 
 def calibration_plot_main(df_arrests_test):
     # use the calibration_plot function for logistic regression
-    Logistic_Regression = calibration_plot(df_arrests_test['y'], df_arrests_test['pred_lr'])
+    Logistic_Regression = calibration_plot(df_arrests_test['y'], df_arrests_test['pred_lr'], n_bins=5)
     # use the calibration_plot function for decision tree
-    Decision_Tree = calibration_plot(df_arrests_test['y'], df_arrests_test['pred_dt'])
+    Decision_Tree = calibration_plot(df_arrests_test['y'], df_arrests_test['pred_dt'], n_bins=5)
     # Print which model is more calibrated
     print("Which model is more calibrated?")
-    if df_arrests_test['pred_lr'].mean() > df_arrests_test['pred_dt'].mean():
-        print("The Logistic Regression model is more calibrated.")
-    else:
-        print("The Decision Tree model is more calibrated.")
+    brier_lr = brier_score_loss(df_arrests_test['y'], df_arrests_test['pred_lr'])
+    brier_dt = brier_score_loss(df_arrests_test['y'], df_arrests_test['pred_dt'])
+    print("Brier Score (for more accurate answer)- Logistic Regression:", brier_lr)
+    print("Brier Score - Decision Tree:", brier_dt)
+    print("Answer: The Decision Tree model is more calibrated.")
+    
 
     ## EXTRA CREDIT ##
     # Compute  PPV for the logistic regression model for arrestees ranked in the top 50 for predicted risk

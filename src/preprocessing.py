@@ -65,6 +65,8 @@ def preprocessing():
             ]
             df_arrests.at[index, 'num_fel_arrests_last_year'] = len(prior_felonies)
 
+    print("Average number of felony arrests in the last year:", df_arrests['num_fel_arrests_last_year'].mean())
+
     # Merge num_fel_arrests_last_year into pred_universe
     pred_universe = pred_universe.merge(
         df_arrests[['person_id', 'num_fel_arrests_last_year']],
